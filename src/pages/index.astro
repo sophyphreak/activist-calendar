@@ -1,0 +1,45 @@
+---
+// Component Imports
+import dayjs from "dayjs";
+
+import Header from "../components/Header";
+import NextEventSection from "../components/NextEventSection";
+import RecentEventsSection from "../components/RecentEventsSection";
+import Footer from "../components/Footer";
+import { EventType } from "../components/EventEntry";
+
+const title = "Activist Calendar";
+const description =
+  "This is a collaborative calendar for us to organize and plan our meetings, protests and other events to fight global warming.";
+const contactUs = "fake@email.com";
+
+const event: EventType = {
+  date: dayjs(new Date()).format("M/D"),
+  title: "March for cats at Houston City Hall",
+};
+
+// Full Astro Component Syntax:
+// https://docs.astro.build/core-concepts/astro-components/
+---
+
+<html lang="en" class="h-screen">
+  <head class="m-0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  </head>
+
+  <body class="m-0 p-4 h-screen bg-gray-50">
+    <div class="container mx-auto flex flex-col gap-8 h-full">
+      <div class="flex-1 flex flex-col gap-16">
+        <Header {...{ title, description }} />
+        <NextEventSection event={event} />
+        <RecentEventsSection />
+      </div>
+
+      <div>
+        <Footer {...{ title, contactUs }} />
+      </div>
+    </div>
+  </body>
+</html>
