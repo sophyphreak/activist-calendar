@@ -15,7 +15,7 @@ export interface EventEntryProps {
 export default function EventEntry({ event, small = false }: EventEntryProps) {
   const iconSize = small ? "h-6 w-6" : "h-8 w-8";
   const margin = small ? "mx-16" : "";
-  const padding = small ? "p-3" : "p-6";
+  const padding = small ? "py-3 px-4" : "p-6";
   return (
     <div
       className={`bg-white border-solid border border-gray-200 drop-shadow-md flex gap-10 items-center justify-between my-4 ${padding} ${margin}`}
