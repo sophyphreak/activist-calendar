@@ -1,5 +1,7 @@
+import EventEntry, { EventType } from "./EventEntry";
+
 interface RecentEventsSectionProps {
-  events?: any[];
+  events?: EventType[];
 }
 export default function RecentEventsSection({
   events = [],
@@ -8,7 +10,7 @@ export default function RecentEventsSection({
     <section>
       <h2 className="text-center text-4xl font-bold mb-8">Recent events</h2>
       {events.length > 0 ? (
-        <p>TODO</p>
+        events.map((event) => <EventEntry key={event.title} event={event} />)
       ) : (
         <p className="text-center italic">No past events.</p>
       )}

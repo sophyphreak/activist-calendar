@@ -7,16 +7,31 @@ import NextEventSection from "../components/NextEventSection";
 import RecentEventsSection from "../components/RecentEventsSection";
 import Footer from "../components/Footer";
 import { EventType } from "../components/EventEntry";
+import { FrontmatterEvent } from "../events/type";
 
 const title = "Activist Calendar";
 const description =
   "This is a collaborative calendar for us to organize and plan our meetings, protests and other events to fight global warming.";
 const contactUs = "fake@email.com";
 
-const event: EventType = {
-  date: dayjs(new Date()).format("M/D"),
-  title: "March for cats at Houston City Hall",
-};
+const toEventType = (frontmatter: FrontmatterEvent): EventType => ({
+  title: frontmatter.title,
+  date: dayjs(frontmatter.date).format("M/D"),
+});
+
+const allEvents = await Astro.glob<FrontmatterEvent>("../events/*.md");
+
+const nextEvents = allEvents
+  .filter((e) => dayjs(e.frontmatter.date).isAfter(dayjs()))
+  .sort((a, b) => dayjs(a.frontmatter.date).diff(dayjs(b.frontmatter.date)));
+
+const nextEvent =
+  nextEvents.length > 0 ? toEventType(nextEvents[0].frontmatter) : null;
+
+const recentEvents = allEvents
+  .filter((e) => dayjs(e.frontmatter.date).isBefore(dayjs()))
+  .sort((a, b) => dayjs(b.frontmatter.date).diff(dayjs(a.frontmatter.date)))
+  .map((e) => toEventType(e.frontmatter));
 
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
@@ -33,8 +48,8 @@ const event: EventType = {
     <div class="container mx-auto flex flex-col gap-8 h-full">
       <div class="flex-1 flex flex-col gap-16">
         <Header {...{ title, description }} />
-        <NextEventSection event={event} />
-        <RecentEventsSection />
+        <NextEventSection event={nextEvent} />
+        <RecentEventsSection events={recentEvents} />
       </div>
 
       <div>

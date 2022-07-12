@@ -1,7 +1,7 @@
 import EventEntry, { EventType } from "./EventEntry";
 
 interface NextEventSectionProps {
-  event?: EventType;
+  event?: EventType | null;
 }
 export default function NextEventSection({ event }: NextEventSectionProps) {
   return (

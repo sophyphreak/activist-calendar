@@ -8,6 +8,7 @@ export type EventType = {
 };
 
 export interface EventEntryProps {
+  key?: any;
   event: EventType;
 }
 export default function EventEntry({ event }: EventEntryProps) {
