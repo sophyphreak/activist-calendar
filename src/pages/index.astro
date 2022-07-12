@@ -19,6 +19,7 @@ const {
 const toEventType = (frontmatter: FrontmatterEvent): EventType => ({
   title: frontmatter.title,
   date: dayjs(frontmatter.date).format("M/D"),
+  location: frontmatter.location,
 });
 
 const allEvents = await Astro.glob<FrontmatterEvent>("../events/*.md");

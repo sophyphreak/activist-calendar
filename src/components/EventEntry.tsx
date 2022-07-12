@@ -1,10 +1,10 @@
-import Annotation from "../icons/Annotation";
 import LocationMarker from "../icons/LocationMarker";
 import Pencil from "../icons/Pencil";
 
 export type EventType = {
   date: string;
   title: string;
+  location?: string;
 };
 
 export interface EventEntryProps {
@@ -28,8 +28,15 @@ export default function EventEntry({ event, small = false }: EventEntryProps) {
       </span>
 
       <span className="flex gap-4 items-center">
-        <Annotation className={`${iconSize} text-gray-900`} />
-        <LocationMarker className={`${iconSize} text-red-900`} />
+        {event.location && (
+          <a
+            href={`https://www.google.fr/maps/search/${event.location}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <LocationMarker className={`${iconSize} text-red-900`} />
+          </a>
+        )}
         <Pencil className={`${iconSize} text-blue-900`} />
       </span>
     </div>
