@@ -5,14 +5,20 @@ export type EventType = {
   date: string;
   title: string;
   location?: string;
+  filename: string;
 };
 
 export interface EventEntryProps {
   key?: any;
   event: EventType;
   small?: boolean;
+  repository: string;
 }
-export default function EventEntry({ event, small = false }: EventEntryProps) {
+export default function EventEntry({
+  event,
+  small = false,
+  repository,
+}: EventEntryProps) {
   const iconSize = small ? "h-6 w-6" : "h-8 w-8";
   const margin = small ? "mx-16" : "";
   const padding = small ? "py-3 px-4" : "p-6";
@@ -37,7 +43,13 @@ export default function EventEntry({ event, small = false }: EventEntryProps) {
             <LocationMarker className={`${iconSize} text-red-900`} />
           </a>
         )}
-        <Pencil className={`${iconSize} text-blue-900`} />
+        <a
+          href={`${repository}/edit/main/src/events/${event.filename}`}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <Pencil className={`${iconSize} text-blue-900`} />
+        </a>
       </span>
     </div>
   );

@@ -12,4 +12,5 @@ export interface FrontmatterConfig {
   footer: {
     contactUs: string;
   };
+  repository: string;
 }

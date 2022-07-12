@@ -8,19 +8,25 @@ import RecentEventsSection from "../components/RecentEventsSection";
 import Footer from "../components/Footer";
 import { EventType } from "../components/EventEntry";
 import { FrontmatterConfig, FrontmatterEvent } from "../types";
+import { MarkdownInstance } from "astro";
 
 const {
   frontmatter: {
     application: { title, description },
     footer: { contactUs },
+    repository,
   },
 } = (await Astro.glob<FrontmatterConfig>("../config.md"))[0];
 
-const toEventType = (frontmatter: FrontmatterEvent): EventType => ({
-  title: frontmatter.title,
-  date: dayjs(frontmatter.date).format("M/D"),
-  location: frontmatter.location,
-});
+const toEventType = (md: MarkdownInstance<FrontmatterEvent>): EventType => {
+  const fileParts = md.file.split("/");
+  return {
+    title: md.frontmatter.title,
+    date: dayjs(md.frontmatter.date).format("M/D"),
+    location: md.frontmatter.location,
+    filename: fileParts[fileParts.length - 1],
+  };
+};
 
 const allEvents = await Astro.glob<FrontmatterEvent>("../events/*.md");
 
@@ -28,13 +34,12 @@ const nextEvents = allEvents
   .filter((e) => dayjs(e.frontmatter.date).isAfter(dayjs()))
   .sort((a, b) => dayjs(a.frontmatter.date).diff(dayjs(b.frontmatter.date)));
 
-const nextEvent =
-  nextEvents.length > 0 ? toEventType(nextEvents[0].frontmatter) : null;
+const nextEvent = nextEvents.length > 0 ? toEventType(nextEvents[0]) : null;
 
 const recentEvents = allEvents
   .filter((e) => dayjs(e.frontmatter.date).isBefore(dayjs()))
   .sort((a, b) => dayjs(b.frontmatter.date).diff(dayjs(a.frontmatter.date)))
-  .map((e) => toEventType(e.frontmatter));
+  .map(toEventType);
 
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
@@ -51,8 +56,8 @@ const recentEvents = allEvents
     <div class="container mx-auto flex flex-col gap-8 h-full">
       <div class="flex-1 flex flex-col gap-16">
         <Header {...{ title, description }} />
-        <NextEventSection event={nextEvent} />
-        <RecentEventsSection events={recentEvents} />
+        <NextEventSection event={nextEvent} repository={repository} />
+        <RecentEventsSection events={recentEvents} repository={repository} />
       </div>
 
       <div>
