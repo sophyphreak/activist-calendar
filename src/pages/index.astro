@@ -7,12 +7,14 @@ import NextEventSection from "../components/NextEventSection";
 import RecentEventsSection from "../components/RecentEventsSection";
 import Footer from "../components/Footer";
 import { EventType } from "../components/EventEntry";
-import { FrontmatterEvent } from "../events/type";
+import { FrontmatterConfig, FrontmatterEvent } from "../types";
 
-const title = "Activist Calendar";
-const description =
-  "This is a collaborative calendar for us to organize and plan our meetings, protests and other events to fight global warming.";
-const contactUs = "fake@email.com";
+const {
+  frontmatter: {
+    application: { title, description },
+    footer: { contactUs },
+  },
+} = (await Astro.glob<FrontmatterConfig>("../config.md"))[0];
 
 const toEventType = (frontmatter: FrontmatterEvent): EventType => ({
   title: frontmatter.title,
