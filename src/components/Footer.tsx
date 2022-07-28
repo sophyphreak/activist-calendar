@@ -11,13 +11,16 @@ export default function Footer({ title, contactUs }: FooterProps) {
           <>
             <Dot />
             <li>
-              <a href={`mailto:${contactUs}`}>Contact us</a>
+              <a className="underline" href={`mailto:${contactUs}`}>
+                Contact us
+              </a>
             </li>
           </>
         )}
         <Dot />
         <li>
           <a
+            className="underline"
             href="https://github.com/sophyphreak/activist-calendar"
             rel="noopener noreferrer"
             target="_blank"

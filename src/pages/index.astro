@@ -3,8 +3,8 @@
 import dayjs from "dayjs";
 
 import Header from "../components/Header";
-import NextEventSection from "../components/NextEventSection";
-import RecentEventsSection from "../components/RecentEventsSection";
+import NextEventsSection from "../components/NextEventsSection";
+import PastEventsSection from "../components/PastEventsSection";
 import Footer from "../components/Footer";
 import { EventType } from "../components/EventEntry";
 import { FrontmatterConfig, FrontmatterEvent } from "../types";
@@ -18,12 +18,16 @@ const {
   },
 } = (await Astro.glob<FrontmatterConfig>("../config.md"))[0];
 
-const toEventType = (md: MarkdownInstance<FrontmatterEvent>): EventType => {
-  const fileParts = md.file.split("/");
+const toEventType = ({
+  frontmatter,
+  file,
+}: MarkdownInstance<FrontmatterEvent>): EventType => {
+  const { date, ...rest } = frontmatter;
+  const fileParts = file.split("/");
   return {
-    title: md.frontmatter.title,
-    date: dayjs(md.frontmatter.date).format("M/D"),
-    location: md.frontmatter.location,
+    ...rest,
+    date: dayjs(date).format("M/D"),
+    dayOfWeek: dayjs(date).format("M/D"),
     filename: fileParts[fileParts.length - 1],
   };
 };
@@ -32,11 +36,10 @@ const allEvents = await Astro.glob<FrontmatterEvent>("../events/*.md");
 
 const nextEvents = allEvents
   .filter((e) => dayjs(e.frontmatter.date).isAfter(dayjs()))
-  .sort((a, b) => dayjs(a.frontmatter.date).diff(dayjs(b.frontmatter.date)));
+  .sort((a, b) => dayjs(a.frontmatter.date).diff(dayjs(b.frontmatter.date)))
+  .map(toEventType);
 
-const nextEvent = nextEvents.length > 0 ? toEventType(nextEvents[0]) : null;
-
-const recentEvents = allEvents
+const pastEvents = allEvents
   .filter((e) => dayjs(e.frontmatter.date).isBefore(dayjs()))
   .sort((a, b) => dayjs(b.frontmatter.date).diff(dayjs(a.frontmatter.date)))
   .map(toEventType);
@@ -56,8 +59,8 @@ const recentEvents = allEvents
     <div class="container mx-auto flex flex-col gap-8 h-full">
       <div class="flex-1 flex flex-col gap-16">
         <Header {...{ title, description }} />
-        <NextEventSection event={nextEvent} repository={repository} />
-        <RecentEventsSection events={recentEvents} repository={repository} />
+        <NextEventsSection events={nextEvents} repository={repository} />
+        <PastEventsSection events={pastEvents} repository={repository} />
       </div>
 
       <div>

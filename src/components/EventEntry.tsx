@@ -3,7 +3,11 @@ import Pencil from "../icons/Pencil";
 
 export type EventType = {
   date: string;
+  dayOfWeek: string;
   title: string;
+  description?: string;
+  organizer: string;
+  organizerLink?: string;
   location?: string;
   filename: string;
 };
@@ -27,13 +31,36 @@ export default function EventEntry({
       className={`bg-white border-solid border border-gray-200 drop-shadow-md flex gap-10 items-center justify-between my-4 ${padding} ${margin}`}
     >
       <span className="flex gap-8 items-center ">
-        <span className={`${small ? "text-xl" : "text-3xl"} font-bold`}>
-          {event.date}
+        <span className="flex flex-col items-center">
+          <span className={`${small ? "text-xl" : "text-3xl"} font-bold`}>
+            {event.date}
+          </span>
+          {!small && <span className="font-bold">Mon</span>}
         </span>
-        <span className={small ? "text-lg" : "text-2xl"}>{event.title}</span>
+
+        <span className="flex flex-col">
+          <span className={small ? "text-lg" : "text-2xl"}>{event.title} </span>
+          {!small && event.description && (
+            <span className="text-gray-500">{event.description}</span>
+          )}
+        </span>
       </span>
 
       <span className="flex gap-4 items-center">
+        <span className="text-gray-500 text">
+          {event.organizerLink ? (
+            <a
+              className="underline"
+              href={event.organizerLink}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {event.organizer}
+            </a>
+          ) : (
+            event.organizer
+          )}
+        </span>
         {event.location && (
           <a
             href={`https://www.google.fr/maps/search/${event.location}`}

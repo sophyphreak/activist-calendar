@@ -1,16 +1,16 @@
 import EventEntry, { EventType } from "./EventEntry";
 
-interface RecentEventsSectionProps {
+interface PastEventsSectionProps {
   events?: EventType[];
   repository: string;
 }
-export default function RecentEventsSection({
+export default function PastEventsSection({
   events = [],
   repository,
-}: RecentEventsSectionProps) {
+}: PastEventsSectionProps) {
   return (
     <section>
-      <h2 className="text-center text-3xl font-bold mb-8">Recent events</h2>
+      <h2 className="text-center text-3xl font-bold mb-8">Past events</h2>
       {events.length > 0 ? (
         events.map((event) => (
           <EventEntry

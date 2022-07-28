@@ -1,19 +1,21 @@
 import EventEntry, { EventType } from "./EventEntry";
 
-interface NextEventSectionProps {
-  event?: EventType | null;
+interface NextEventsSectionProps {
+  events: EventType[];
   repository: string;
 }
-export default function NextEventSection({
-  event,
+export default function NextEventsSection({
+  events,
   repository,
-}: NextEventSectionProps) {
+}: NextEventsSectionProps) {
   return (
     <section>
       <h2 className="text-center text-4xl font-bold mb-8">Next event</h2>
 
-      {event ? (
-        <EventEntry event={event} repository={repository} />
+      {events.length > 0 ? (
+        events.map((event) => (
+          <EventEntry key={event.title} event={event} repository={repository} />
+        ))
       ) : (
         <p className="text-center italic">No events scheduled yet.</p>
       )}
