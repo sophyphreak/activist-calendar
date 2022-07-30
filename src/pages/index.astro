@@ -22,12 +22,9 @@ const toEventType = ({
   frontmatter,
   file,
 }: MarkdownInstance<FrontmatterEvent>): EventType => {
-  const { date, ...rest } = frontmatter;
   const fileParts = file.split("/");
   return {
-    ...rest,
-    date: dayjs(date).format("M/D"),
-    dayOfWeek: dayjs(date).format("M/D"),
+    ...frontmatter,
     filename: fileParts[fileParts.length - 1],
   };
 };
