@@ -1,16 +1,8 @@
 import dayjs from "dayjs";
 import LocationMarker from "../icons/LocationMarker";
 import Pencil from "../icons/Pencil";
-
-export type EventType = {
-  date: string;
-  title: string;
-  description?: string;
-  organizer: string;
-  organizerLink?: string;
-  location?: string;
-  filename: string;
-};
+import { EventType } from "../types";
+import EventForm from "./EventForm";
 
 export interface EventEntryProps {
   key?: any;
@@ -28,7 +20,7 @@ export default function EventEntry({
   const padding = small ? "py-3 px-4" : "p-6";
   return (
     <div
-      className={`bg-white border-solid border border-gray-200 drop-shadow-md flex gap-10 items-center justify-between my-4 ${padding} ${margin}`}
+      className={`rounded bg-white border-solid border border-gray-200 drop-shadow-md flex gap-10 items-center justify-between my-4 ${padding} ${margin}`}
     >
       <span className="flex gap-8 items-center ">
         <span className="flex flex-col items-center">
@@ -74,13 +66,16 @@ export default function EventEntry({
             <LocationMarker className={`${iconSize} text-red-900`} />
           </a>
         )}
-        <a
+        {/* <a
           href={`${repository}/edit/main/src/events/${event.filename}`}
           rel="noopener noreferrer"
           target="_blank"
         >
           <Pencil className={`${iconSize} text-blue-900`} />
-        </a>
+        </a> */}
+        <EventForm {...{ repository, event }}>
+          <Pencil className={`${iconSize} text-blue-900`} />
+        </EventForm>
       </span>
     </div>
   );
