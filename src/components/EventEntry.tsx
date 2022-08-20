@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
+import Delete from "../icons/Delete";
 import LocationMarker from "../icons/LocationMarker";
-import Pencil from "../icons/Pencil";
 import { EventType } from "../types";
-import EventForm from "./EventForm";
 
 export interface EventEntryProps {
   key?: any;
@@ -66,16 +65,14 @@ export default function EventEntry({
             <LocationMarker className={`${iconSize} text-red-900`} />
           </a>
         )}
-        {/* <a
-          href={`${repository}/edit/main/src/events/${event.filename}`}
+
+        <a
+          href={`${repository}/delete/main/src/events/${event.filename}`}
           rel="noopener noreferrer"
           target="_blank"
         >
-          <Pencil className={`${iconSize} text-blue-900`} />
-        </a> */}
-        <EventForm {...{ repository, event }}>
-          <Pencil className={`${iconSize} text-blue-900`} />
-        </EventForm>
+          <Delete className={`${iconSize} text-gray-800`} />
+        </a>
       </span>
     </div>
   );

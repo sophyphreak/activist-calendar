@@ -6,9 +6,9 @@ import Header from "../components/Header";
 import NextEventsSection from "../components/NextEventsSection";
 import PastEventsSection from "../components/PastEventsSection";
 import Footer from "../components/Footer";
-import { EventType } from "../components/EventEntry";
-import { FrontmatterConfig, FrontmatterEvent } from "../types";
+import { FrontmatterConfig, FrontmatterEvent, EventType } from "../types";
 import { MarkdownInstance } from "astro";
+import EventForm from "../components/EventForm";
 
 const {
   frontmatter: {
@@ -56,6 +56,11 @@ const pastEvents = allEvents
     <div class="container mx-auto flex flex-col gap-8 h-full">
       <div class="flex-1 flex flex-col gap-16">
         <Header {...{ title, description }} />
+
+        <div class="text-center">
+          <EventForm {...{ repository }} client:visible />
+        </div>
+
         <NextEventsSection
           events={nextEvents}
           repository={repository}

@@ -2,18 +2,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import InputText from "./InputText";
 import InputDatetime from "./InputDatetime";
-import { EventType } from "../types";
+import Plus from "../icons/Plus";
+import dayjs from "dayjs";
+import slugify from "slugify";
 
 interface EventFormProps {
-  children: React.ReactNode;
-  event?: EventType;
   repository: string;
 }
-export default function EventForm({
-  children,
-  event,
-  repository,
-}: EventFormProps) {
+export default function EventForm({ repository }: EventFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
@@ -29,19 +25,19 @@ export default function EventForm({
     const organizerLink = formData.get("organizerLink") as string;
     const location = formData.get("location") as string;
 
-    const template = `---
-title: "${title}"
-description: "${description}"
-date: "${date}"
-location: "${location}"
-organizer: "${organizer}"
-organizerLink: "${organizerLink}"
+    const template = `---%0A
+title: "${title}"%0A
+description: "${description}"%0A
+date: "${date}"%0A
+location: "${location}"%0A
+organizer: "${organizer}"%0A
+organizerLink: "${organizerLink}"%0A
 ---`;
 
-    console.log({ template });
-    const url = `${repository}/edit/main/src/events/${
-      event!.filename
-    }?value=${template}`;
+    const filename = `${dayjs(date).format("YYYYMMDD")}-${slugify(title, {
+      lower: true,
+    })}.md`;
+    const url = `${repository}/new/main/src/events?value=${template}&filename=events/${filename}`;
 
     window.open(url, "_blank");
 
@@ -57,8 +53,13 @@ organizerLink: "${organizerLink}"
 
   return (
     <>
-      <button type="button" onClick={openModal}>
-        {children}
+      <button
+        type="button"
+        onClick={openModal}
+        className="w-60 h-12 rounded-md border border-transparent bg-blue-100 px-4 py-2 font-semibold text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 inline-flex items-center justify-center gap-3 text-lg"
+      >
+        <Plus className={`h-6 w-6 text-blue-900`} />
+        <span>Create an event</span>
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -88,7 +89,7 @@ organizerLink: "${organizerLink}"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all flex flex-col gap-6">
                   <Dialog.Title as="h3" className="text-2xl font-bold">
-                    Edit Event
+                    Create event
                   </Dialog.Title>
 
                   <form className="flex flex-col gap-6" onSubmit={submit}>
@@ -97,38 +98,28 @@ organizerLink: "${organizerLink}"
                         label="Title"
                         name="title"
                         required
-                        defaultValue={event?.title}
                         placeholder="The title of the event"
                       />
                       <InputText
                         label="Description"
                         name="description"
-                        defaultValue={event?.description}
                         placeholder="A small description of the event"
                       />
-                      <InputDatetime
-                        label="Date"
-                        name="date"
-                        required
-                        defaultValue={event?.date}
-                      />
+                      <InputDatetime label="Date" name="date" required />
                       <InputText
                         label="Organizer"
                         name="organizer"
                         required
-                        defaultValue={event?.organizer}
                         placeholder="Who is organizing the event?"
                       />
                       <InputText
                         label="Organizer Link"
                         name="organizerLink"
-                        defaultValue={event?.organizerLink}
                         placeholder="Link to the organizer's website"
                       />
                       <InputText
                         label="Location"
                         name="location"
-                        defaultValue={event?.location}
                         placeholder="Where is the event?"
                       />
                     </div>
