@@ -5,6 +5,7 @@ export interface FrontmatterEvent {
   location?: string;
   organizer: string;
   organizerLink?: string;
+  zoomLink?: string;
 }
 
 export interface FrontmatterConfig {
@@ -26,4 +27,5 @@ export type EventType = {
   organizerLink?: string;
   location?: string;
   filename: string;
+  zoomLink?: string;
 };

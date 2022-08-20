@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import Delete from "../icons/Delete";
 import LocationMarker from "../icons/LocationMarker";
+import Video from "../icons/Video";
 import { EventType } from "../types";
 
 export interface EventEntryProps {
@@ -63,6 +64,11 @@ export default function EventEntry({
             target="_blank"
           >
             <LocationMarker className={`${iconSize} text-red-900`} />
+          </a>
+        )}
+        {event.zoomLink && (
+          <a href={event.zoomLink} rel="noopener noreferrer" target="_blank">
+            <Video className={`${iconSize} text-blue-600`} />
           </a>
         )}
 

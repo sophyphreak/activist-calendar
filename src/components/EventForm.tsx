@@ -24,6 +24,7 @@ export default function EventForm({ repository }: EventFormProps) {
     const organizer = formData.get("organizer") as string;
     const organizerLink = formData.get("organizerLink") as string;
     const location = formData.get("location") as string;
+    const zoomLink = formData.get("zoomLink") as string;
 
     const template = `---%0A
 title: "${title}"%0A
@@ -32,6 +33,7 @@ date: "${date}"%0A
 location: "${location}"%0A
 organizer: "${organizer}"%0A
 organizerLink: "${organizerLink}"%0A
+zoomLink: "${zoomLink}"%0A
 ---`;
 
     const filename = `${dayjs(date).format("YYYYMMDD")}-${slugify(title, {
@@ -113,7 +115,7 @@ organizerLink: "${organizerLink}"%0A
                         placeholder="Who is organizing the event?"
                       />
                       <InputText
-                        label="Organizer Link"
+                        label="Organizer link"
                         name="organizerLink"
                         placeholder="Link to the organizer's website"
                       />
@@ -121,6 +123,11 @@ organizerLink: "${organizerLink}"%0A
                         label="Location"
                         name="location"
                         placeholder="Where is the event?"
+                      />
+                      <InputText
+                        label="Zoom link"
+                        name="zoomLink"
+                        placeholder="Link of the zomm meeting"
                       />
                     </div>
 
