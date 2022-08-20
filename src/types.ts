@@ -17,3 +17,13 @@ export interface FrontmatterConfig {
   };
   repository: string;
 }
+
+export type EventType = {
+  date: string;
+  title: string;
+  description?: string;
+  organizer: string;
+  organizerLink?: string;
+  location?: string;
+  filename: string;
+};
