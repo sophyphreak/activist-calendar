@@ -25,7 +25,7 @@ export default function EventEntry({
       <span className="flex gap-8 items-center ">
         <span className="flex flex-col items-center">
           <span className={`${small ? "text-xl" : "text-3xl"} font-bold`}>
-            {dayjs(event.date).format("M/D")}
+            {dayjs(event.date).format("MMMM D, YYYY")}
           </span>
           {!small && (
             <span className="font-bold">
