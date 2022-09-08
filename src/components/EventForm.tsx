@@ -127,7 +127,7 @@ zoomLink: "${zoomLink}"%0A
                       <InputText
                         label="Zoom link"
                         name="zoomLink"
-                        placeholder="Link of the zomm meeting"
+                        placeholder="Link of the zoom meeting"
                       />
                     </div>
 
