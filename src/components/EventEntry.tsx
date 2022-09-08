@@ -29,7 +29,7 @@ export default function EventEntry({
           </span>
           {!small && (
             <span className="font-bold">
-              {dayjs(event.date).format("ddd [at] h:mma")}
+              {dayjs(event.date).format("dddd [at] h:mma")}
             </span>
           )}
         </span>
